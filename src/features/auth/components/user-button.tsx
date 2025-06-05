@@ -27,7 +27,8 @@ export const UserButton = () => {
   const router = useRouter();
   const [result, logout] = useMutation(LOGOUT_MUTATION);
   const [{ data, fetching, error }] = useQuery<QueryResponse>({
-    query: CURRENT_USER
+    query: CURRENT_USER,
+    requestPolicy: "cache-and-network"
   });
 
   const handleLogout = () => {

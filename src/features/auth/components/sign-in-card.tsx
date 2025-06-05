@@ -59,7 +59,7 @@ export const SignInCard = () => {
   }
 
   if (data?.signin?.success) {
-    router.refresh();
+    router.push("/");
   }
 
   return (

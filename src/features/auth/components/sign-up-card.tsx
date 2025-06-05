@@ -68,7 +68,7 @@ export const SignUpCard = () => {
   }
 
   if (data?.signup?.success) {
-    router.refresh();
+    router.push("/");
   }
 
   return (

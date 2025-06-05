@@ -1,9 +1,15 @@
-import Image from "next/image";
+import { redirect } from "next/navigation";
+import { getSession } from "../features/auth/get-session";
+import { UserButton } from "@/features/auth/components/user-button";
 
-export default function Home() {
+export default async function Home() {
+  const auth = await getSession();
+
+  if (!auth) redirect("/sign-in");
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      Hello, World!
+    <main>
+      <UserButton />
     </main>
   );
 }

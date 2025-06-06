@@ -2,6 +2,7 @@
 
 import { z } from "zod";
 import Link from "next/link";
+import { toast } from "sonner";
 import { useMutation } from "@urql/next";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
@@ -28,13 +29,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { DottedSeparator } from "@/components/dotted-separator";
 
-import { registerSchema } from "../types";
+import { registerSchema } from "../schemas";
 import { SING_UP_MUTATION } from "../api/queries";
 
 export const SignUpCard = () => {
   const router = useRouter();
-  const [{ data, fetching, error }, registerUser] =
-    useMutation(SING_UP_MUTATION);
+  const [{ fetching }, registerUser] = useMutation(SING_UP_MUTATION);
 
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
@@ -50,26 +50,19 @@ export const SignUpCard = () => {
       name: values.name,
       email: values.email,
       password: values.password
+    }).then(({ data, error }) => {
+      if (error) {
+        toast.error("Failet to register user");
+        form.setError("email", {
+          type: "manual",
+          message: "Email already exists"
+        });
+      } else if (data?.registerUser) {
+        toast.success("Registered successful!");
+        router.refresh();
+      }
     });
   };
-
-  if (error) {
-    console.error("Error during sign-up:", error);
-    return (
-      <Card className="w-full h-full md:w-[487px] border-none shadow-none">
-        <CardHeader className="flex items-center justify-center text-center p-7">
-          <CardTitle className="text-2xl">Error</CardTitle>
-        </CardHeader>
-        <CardContent className="p-7">
-          <p className="text-red-500">{error.message}</p>
-        </CardContent>
-      </Card>
-    );
-  }
-
-  if (data?.signup?.success) {
-    router.push("/");
-  }
 
   return (
     <Card className="w-full h-full md:w-[487px] border-none shadow-none">

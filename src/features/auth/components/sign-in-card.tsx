@@ -2,6 +2,7 @@
 
 import { z } from "zod";
 import Link from "next/link";
+import { toast } from "sonner";
 import { useMutation } from "@urql/next";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
@@ -21,13 +22,13 @@ import { Button } from "@/components/ui/button";
 import { DottedSeparator } from "@/components/dotted-separator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-import { loginSchema } from "../types";
+import { loginSchema } from "../schemas";
 import { SING_IN_MUTATION } from "../api/queries";
 /* import { signUpWithGithub, signUpWithGoogle } from "@/lib/oauth"; */
 
 export const SignInCard = () => {
   const router = useRouter();
-  const [{ data, fetching, error }, signIn] = useMutation(SING_IN_MUTATION);
+  const [{ fetching }, signIn] = useMutation(SING_IN_MUTATION);
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -41,26 +42,23 @@ export const SignInCard = () => {
     signIn({
       email: values.email,
       password: values.password
+    }).then((result) => {
+      if (result.error) {
+        toast.error("Sign-in failed");
+        form.setError("email", {
+          type: "manual",
+          message: "Invalid email or password"
+        });
+        form.setError("password", {
+          type: "manual",
+          message: "Invalid email or password"
+        });
+      } else {
+        toast.success("Signed in successfully");
+        router.refresh();
+      }
     });
   };
-
-  if (error) {
-    console.error("Error during sign-in:", error);
-    return (
-      <Card className="w-full h-full md:w-[487px] border-none shadow-none">
-        <CardHeader className="flex items-center justify-center text-center p-7">
-          <CardTitle className="text-2xl">Error</CardTitle>
-        </CardHeader>
-        <CardContent className="p-7">
-          <p className="text-red-500">{error.message}</p>
-        </CardContent>
-      </Card>
-    );
-  }
-
-  if (data?.signin?.success) {
-    router.push("/");
-  }
 
   return (
     <Card className="w-full h-full md:w-[487px] border-none shadow-none">

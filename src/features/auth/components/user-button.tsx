@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { Loader, LogOut } from "lucide-react";
 import { useMutation, useQuery } from "@urql/next";
@@ -26,18 +27,22 @@ interface QueryResponse {
 export const UserButton = () => {
   const router = useRouter();
   const [result, logout] = useMutation(LOGOUT_MUTATION);
-  const [{ data, fetching, error }] = useQuery<QueryResponse>({
+  const [{ data, fetching }] = useQuery<QueryResponse>({
     query: CURRENT_USER,
     requestPolicy: "cache-and-network"
   });
 
   const handleLogout = () => {
-    logout();
-  };
+    logout().then(({ error }) => {
+      if (error) {
+        toast.error("Logout failed. Please try again.");
+        return;
+      }
 
-  if (result.data?.logout?.success) {
-    router.push("/sign-in");
-  }
+      toast.success("Logged out successfully");
+      router.refresh();
+    });
+  };
 
   if (fetching) {
     return (

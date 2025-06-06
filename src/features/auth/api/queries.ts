@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from "urql";
 
 export const SING_UP_MUTATION = gql`
   mutation signup($email: String!, $password: String!, $name: String) {

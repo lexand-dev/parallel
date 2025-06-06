@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 import GQLProvider from "@/lib/gql-provider";
 import { cn } from "@/lib/utils";
 
@@ -20,7 +21,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn("antialiased min-h-screen", inter.className)}>
-        <GQLProvider>{children}</GQLProvider>
+        <GQLProvider>
+          <Toaster />
+          {children}
+        </GQLProvider>
       </body>
     </html>
   );

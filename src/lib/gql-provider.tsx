@@ -23,7 +23,10 @@ export default function Layout({ children, token }: LayoutProps) {
       url: "http://localhost:4000/graphql",
       exchanges: [cacheExchange, ssr, fetchExchange],
       fetchOptions: {
-        credentials: "include"
+        credentials: "include",
+        headers: {
+          "apollo-require-preflight": "true"
+        }
       }
     });
 

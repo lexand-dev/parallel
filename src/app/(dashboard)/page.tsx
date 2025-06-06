@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { getSession } from "@/features/auth/get-session";
+import { CreateWorkspaceForm } from "@/features/workspaces/components/create-workspace-form";
 
 export default async function Home() {
   const auth = await getSession();
@@ -8,5 +9,9 @@ export default async function Home() {
     redirect("/sign-in");
   }
 
-  return <main>This is the dashboard page.</main>;
+  return (
+    <main>
+      <CreateWorkspaceForm />
+    </main>
+  );
 }

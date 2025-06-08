@@ -1,5 +1,19 @@
 import { z } from "zod";
 
+export const workspaceSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  userId: z.string(),
+  image: z.string().nullable().optional(),
+  inviteCode: z.string().optional()
+});
+
+export type Workspace = z.infer<typeof workspaceSchema>;
+
+export const workspacesSchema = z.object({
+  workspaces: z.array(workspaceSchema)
+});
+
 export const createWorkspaceSchema = z.object({
   name: z.string().trim().min(1, "Required"),
   image: z

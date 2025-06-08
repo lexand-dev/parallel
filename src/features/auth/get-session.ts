@@ -1,9 +1,16 @@
 import { cookies } from "next/headers";
 
 export const getSession = async () => {
-  const cookie = await cookies();
-  const session = cookie.has(process.env.AUTH_COOKIE!);
+  const cookieStore = await cookies(); // Esto NO es async
+  const allCookies = cookieStore.getAll();
+  const cookieHeader = allCookies
+    .map(({ name, value }) => `${name}=${value}`)
+    .join("; ");
+  const session = cookieStore.has(process.env.AUTH_COOKIE!);
   console.log("getAuth session:", session);
   if (!session) return null;
-  return session;
+  return {
+    cookieHeader,
+    session
+  };
 };

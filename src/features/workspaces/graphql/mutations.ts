@@ -1,32 +1,46 @@
 import { gql } from "urql";
 
-export const CREATE_WORKSPACE_MUTATION = gql`
+export const CREATE_WORKSPACE = gql`
   mutation CreateWorkspace($name: String!, $image: ImageInput) {
     createWorkspace(name: $name, image: $image) {
       id
       name
       image
       userId
+      inviteCode
     }
   }
 `;
 
-export const UPDATE_WORKSPACE_MUTATION = gql`
+export const UPDATE_WORKSPACE = gql`
   mutation UpdateWorkspace($id: ID!, $name: String!, $image: ImageInput) {
     updateWorkspace(id: $id, name: $name, image: $image) {
       id
       name
       image
       userId
+      inviteCode
     }
   }
 `;
 
-export const DELETE_WORKSPACE_MUTATION = gql`
+export const DELETE_WORKSPACE = gql`
   mutation DeleteWorkspace($id: ID!) {
     deleteWorkspace(id: $id) {
       message
       success
+    }
+  }
+`;
+
+export const RESET_INVITE_CODE = gql`
+  mutation ResetInviteCode($id: ID!) {
+    resetInviteCode(id: $id) {
+      id
+      name
+      image
+      userId
+      inviteCode
     }
   }
 `;

@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/form";
 
 import { createWorkspaceSchema } from "../schemas";
-import { CREATE_WORKSPACE_MUTATION } from "../graphql/mutations";
+import { CREATE_WORKSPACE } from "../graphql/mutations";
 
 interface CreateWorkspaceFormProps {
   onCancel?: () => void;
@@ -34,7 +34,7 @@ interface CreateWorkspaceFormProps {
 
 export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
   const router = useRouter();
-  const [{ fetching }, create] = useMutation(CREATE_WORKSPACE_MUTATION);
+  const [{ fetching }, create] = useMutation(CREATE_WORKSPACE);
 
   const inputRef = useRef<HTMLInputElement>(null);
 

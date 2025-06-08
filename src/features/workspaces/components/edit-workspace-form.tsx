@@ -5,7 +5,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import { toast } from "sonner";
 import { useMutation } from "@urql/next";
-import { ArrowLeftIcon, ImageIcon } from "lucide-react";
+import { ArrowLeftIcon, CopyIcon, ImageIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,11 +26,12 @@ import {
   FormMessage
 } from "@/components/ui/form";
 
-import { updateWorkspaceSchema, workspaceSchema } from "../schemas";
 import {
-  DELETE_WORKSPACE_MUTATION,
-  UPDATE_WORKSPACE_MUTATION
+  DELETE_WORKSPACE,
+  UPDATE_WORKSPACE,
+  RESET_INVITE_CODE
 } from "../graphql/mutations";
+import { updateWorkspaceSchema, workspaceSchema } from "../schemas";
 
 interface EditWorkspaceFormProps {
   onCancel?: () => void;
@@ -42,16 +43,21 @@ export const EditWorkspaceForm = ({
   initialValues
 }: EditWorkspaceFormProps) => {
   const router = useRouter();
-  const [{ fetching: isUpdating }, editWorkspace] = useMutation(
-    UPDATE_WORKSPACE_MUTATION
-  );
-  const [{ fetching: isDeleting }, deleteWorkspace] = useMutation(
-    DELETE_WORKSPACE_MUTATION
-  );
+  const [{ fetching: isUpdating }, editWorkspace] =
+    useMutation(UPDATE_WORKSPACE);
+  const [{ fetching: isDeleting }, deleteWorkspace] =
+    useMutation(DELETE_WORKSPACE);
+  const [{ fetching: isResettingInviteCode }, resetInviteCode] =
+    useMutation(RESET_INVITE_CODE);
 
   const [DeleteDialog, confirmDelete] = useConfirm(
     "Delete Workspace",
     "This action cannot be undone."
+  );
+
+  const [ResetDialog, confirmReset] = useConfirm(
+    "Reset invite link",
+    "This will invalidate the current invite link"
   );
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -77,6 +83,24 @@ export const EditWorkspaceForm = ({
           }
           toast.success("Workspace deleted successfully");
           window.location.href = "/";
+        });
+      }
+    });
+  };
+
+  const handleResetInviteCode = () => {
+    confirmReset().then((confirmed) => {
+      if (confirmed) {
+        resetInviteCode(
+          { id: initialValues.id },
+          { additionalTypenames: ["Workspace"] }
+        ).then(({ data, error }) => {
+          if (error) {
+            toast.error("Error resetting invite code");
+            return;
+          }
+          toast.success("Invite code reset successfully");
+          router.refresh();
         });
       }
     });
@@ -117,9 +141,20 @@ export const EditWorkspaceForm = ({
     }
   };
 
+  const fullInviteLink = `${process.env.NEXT_PUBLIC_APP_URL!}/workspaces/${
+    initialValues.id
+  }/join/${initialValues.inviteCode}`;
+
+  const handleCopyInviteLink = () => {
+    navigator.clipboard
+      .writeText(fullInviteLink)
+      .then(() => toast.success("Invite link copied to clipboard"));
+  };
+
   return (
     <div className="flex flex-col gap-y-4">
       <DeleteDialog />
+      <ResetDialog />
       <Card className="w-full h-full border-none shadow-none">
         <CardHeader className="flex flex-row items-center gap-x-4 p-7 space-y-0">
           <Button
@@ -253,6 +288,40 @@ export const EditWorkspaceForm = ({
               </div>
             </form>
           </Form>
+        </CardContent>
+      </Card>
+
+      <Card className="w-ful h-full border-none shadow-none">
+        <CardContent className="p-7">
+          <div className="flex flex-col">
+            <h3 className="font-bold">Invite Members</h3>
+            <p className="text-sm text-muted-foreground">
+              Use the invite link to add members to your workspace.
+            </p>
+            <div className="mt-4">
+              <div className="flex items-center gap-x-2">
+                <Input disabled value={fullInviteLink} />
+                <Button
+                  onClick={handleCopyInviteLink}
+                  variant="secondary"
+                  className="size-12"
+                >
+                  <CopyIcon className="size-5" />
+                </Button>
+              </div>
+            </div>
+            <DottedSeparator className="py-7" />
+            <Button
+              className="mt-6 w-fit ml-auto"
+              size="sm"
+              variant="destructive"
+              type="button"
+              disabled={isUpdating || isResettingInviteCode}
+              onClick={handleResetInviteCode}
+            >
+              Reset invite link
+            </Button>
+          </div>
         </CardContent>
       </Card>
 

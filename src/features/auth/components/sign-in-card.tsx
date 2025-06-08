@@ -23,7 +23,7 @@ import { DottedSeparator } from "@/components/dotted-separator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { loginSchema } from "../schemas";
-import { SING_IN_MUTATION } from "../api/queries";
+import { SING_IN_MUTATION } from "../graphql/mutations";
 /* import { signUpWithGithub, signUpWithGoogle } from "@/lib/oauth"; */
 
 export const SignInCard = () => {

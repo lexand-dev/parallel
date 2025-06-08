@@ -14,11 +14,10 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { DottedSeparator } from "@/components/dotted-separator";
 
-import { CURRENT_USER, LOGOUT_MUTATION } from "../api/queries";
+import { CURRENT_USER, LOGOUT_MUTATION } from "../graphql/mutations";
 
 interface QueryResponse {
   current: {
-    _id: string;
     name: string;
     email: string;
   };

@@ -30,7 +30,7 @@ import { Button } from "@/components/ui/button";
 import { DottedSeparator } from "@/components/dotted-separator";
 
 import { registerSchema } from "../schemas";
-import { SING_UP_MUTATION } from "../api/queries";
+import { SING_UP_MUTATION } from "../graphql/mutations";
 
 export const SignUpCard = () => {
   const router = useRouter();

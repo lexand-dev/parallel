@@ -21,3 +21,12 @@ export const UPDATE_WORKSPACE_MUTATION = gql`
     }
   }
 `;
+
+export const DELETE_WORKSPACE_MUTATION = gql`
+  mutation DeleteWorkspace($id: ID!) {
+    deleteWorkspace(id: $id) {
+      message
+      success
+    }
+  }
+`;

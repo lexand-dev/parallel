@@ -1,11 +1,10 @@
 import { redirect } from "next/navigation";
 import { registerUrql } from "@urql/next/rsc";
-import { getSession } from "@/features/auth/get-session";
 import { cacheExchange, createClient, fetchExchange } from "@urql/core";
 
+import { getSession } from "@/features/auth/get-session";
 import { Workspace } from "@/features/workspaces/schemas";
 import { GET_WORKSPACES_QUERY } from "@/features/workspaces/graphql/queries";
-import { cookies } from "next/headers";
 
 interface QueryResponse {
   getWorkspaces: Workspace[];

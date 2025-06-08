@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 
 export const getSession = async () => {
-  const cookieStore = await cookies(); // Esto NO es async
+  const cookieStore = await cookies();
   const allCookies = cookieStore.getAll();
   const cookieHeader = allCookies
     .map(({ name, value }) => `${name}=${value}`)

@@ -10,3 +10,14 @@ export const CREATE_WORKSPACE_MUTATION = gql`
     }
   }
 `;
+
+export const UPDATE_WORKSPACE_MUTATION = gql`
+  mutation UpdateWorkspace($id: ID!, $name: String!, $image: ImageInput) {
+    updateWorkspace(id: $id, name: $name, image: $image) {
+      id
+      name
+      image
+      userId
+    }
+  }
+`;

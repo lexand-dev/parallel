@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
-import { registerUrql } from "@urql/next/rsc";
-import { cacheExchange, createClient, fetchExchange } from "@urql/core";
 
+import { createUrqlServer } from "@/lib/urql-server";
 import { getSession } from "@/features/auth/get-session";
 import { Workspace } from "@/features/workspaces/schemas";
 import { GET_WORKSPACES_QUERY } from "@/features/workspaces/graphql/queries";
@@ -13,20 +12,7 @@ interface QueryResponse {
 export default async function Home() {
   const auth = await getSession();
 
-  const makeClient = () => {
-    return createClient({
-      url: "http://localhost:4000/graphql",
-      exchanges: [cacheExchange, fetchExchange],
-      fetchOptions: {
-        credentials: "include",
-        headers: {
-          cookie: auth?.cookieHeader!
-        }
-      }
-    });
-  };
-
-  const { getClient } = registerUrql(makeClient);
+  const { getClient } = createUrqlServer(auth?.cookieHeader);
 
   if (!auth?.session) {
     redirect("/sign-in");

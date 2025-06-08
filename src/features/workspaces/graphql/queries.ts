@@ -17,6 +17,7 @@ export const GET_WORKSPACE_QUERY = gql`
       id
       name
       image
+      userId
       inviteCode
       __typename
     }

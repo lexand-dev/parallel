@@ -1,13 +1,8 @@
 import { gql } from "urql";
 
 export const SING_UP_MUTATION = gql`
-  mutation signup($email: String!, $password: String!, $name: String) {
-    signup(
-      email: $email
-      password: $password
-      name: $name
-      userId: "unique()"
-    ) {
+  mutation Signup($input: AuthInput!) {
+    signup(input: $input) {
       message
       success
     }

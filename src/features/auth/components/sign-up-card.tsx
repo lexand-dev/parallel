@@ -47,9 +47,11 @@ export const SignUpCard = () => {
 
   const onSubmit = (values: z.infer<typeof registerSchema>) => {
     registerUser({
-      name: values.name,
-      email: values.email,
-      password: values.password
+      input: {
+        name: values.name,
+        email: values.email,
+        password: values.password
+      }
     }).then(({ data, error }) => {
       if (error) {
         toast.error("Failet to register user");
@@ -57,7 +59,7 @@ export const SignUpCard = () => {
           type: "manual",
           message: "Email already exists"
         });
-      } else if (data?.registerUser) {
+      } else {
         toast.success("Registered successful!");
         router.refresh();
       }

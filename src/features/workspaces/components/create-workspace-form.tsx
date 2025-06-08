@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/form";
 
 import { createWorkspaceSchema } from "../schemas";
-import { CREATE_WORKSPACE_MUTATION } from "../api/queries";
+import { CREATE_WORKSPACE_MUTATION } from "../graphql/mutations";
 
 interface CreateWorkspaceFormProps {
   onCancel?: () => void;
@@ -34,9 +34,7 @@ interface CreateWorkspaceFormProps {
 
 export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
   const router = useRouter();
-  const [{ fetching }, create] = useMutation<{
-    createWorkspace: { id: string };
-  }>(CREATE_WORKSPACE_MUTATION);
+  const [{ fetching }, create] = useMutation(CREATE_WORKSPACE_MUTATION);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -48,9 +46,17 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
   });
 
   const onSubmit = (values: z.infer<typeof createWorkspaceSchema>) => {
+    let imageInput: { file?: File; url?: string } | undefined = undefined;
+
+    if (values.image instanceof File) {
+      imageInput = { file: values.image };
+    } else if (typeof values.image === "string" && values.image.trim() !== "") {
+      imageInput = { url: values.image };
+    }
+
     const finalValues = {
-      ...values,
-      image: values.image instanceof File ? values.image : ""
+      name: values.name,
+      image: imageInput
     };
 
     create(finalValues, {
@@ -62,7 +68,7 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
       }
       form.reset();
       toast.success("Workspace created!");
-      /*       router.push(`/workspaces/${data?.createWorkspace.id}`); */
+      router.push(`/workspaces/${data?.createWorkspace.id}`);
     });
   };
 

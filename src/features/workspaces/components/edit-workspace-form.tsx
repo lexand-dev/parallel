@@ -31,11 +31,11 @@ import {
   UPDATE_WORKSPACE,
   RESET_INVITE_CODE
 } from "../graphql/mutations";
-import { updateWorkspaceSchema, workspaceSchema } from "../schemas";
+import { updateWorkspaceSchema, Workspace } from "../schemas";
 
 interface EditWorkspaceFormProps {
   onCancel?: () => void;
-  initialValues: z.infer<typeof workspaceSchema>;
+  initialValues: Workspace;
 }
 
 export const EditWorkspaceForm = ({
@@ -78,7 +78,7 @@ export const EditWorkspaceForm = ({
           { additionalTypenames: ["Workspace"] }
         ).then(({ data, error }) => {
           if (error) {
-            toast.error("Error deleting workspace");
+            toast.error(error.message || "Error deleting workspace");
             return;
           }
           toast.success("Workspace deleted successfully");
@@ -96,7 +96,7 @@ export const EditWorkspaceForm = ({
           { additionalTypenames: ["Workspace"] }
         ).then(({ data, error }) => {
           if (error) {
-            toast.error("Error resetting invite code");
+            toast.error(error.message || "Error resetting invite code");
             return;
           }
           toast.success("Invite code reset successfully");
@@ -125,7 +125,7 @@ export const EditWorkspaceForm = ({
       additionalTypenames: ["Workspace"]
     }).then(({ data, error }) => {
       if (error) {
-        toast.error("Error updating workspace");
+        toast.error(error.message || "Error updating workspace");
         return;
       }
       form.reset();

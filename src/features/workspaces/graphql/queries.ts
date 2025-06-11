@@ -23,3 +23,12 @@ export const GET_WORKSPACE_QUERY = gql`
     }
   }
 `;
+
+export const GET_WORKSPACE_INFO = gql`
+  query getWorkspaceInfo($id: ID!) {
+    getWorkspaceInfo(id: $id) {
+      name
+      __typename
+    }
+  }
+`;

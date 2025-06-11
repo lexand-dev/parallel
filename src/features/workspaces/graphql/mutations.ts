@@ -44,3 +44,15 @@ export const RESET_INVITE_CODE = gql`
     }
   }
 `;
+
+export const JOIN_WORKSPACE = gql`
+  mutation JoinWorkspace($inviteCode: String!, $workspaceId: ID!) {
+    joinWorkspace(inviteCode: $inviteCode, workspaceId: $workspaceId) {
+      id
+      name
+      image
+      userId
+      inviteCode
+    }
+  }
+`;

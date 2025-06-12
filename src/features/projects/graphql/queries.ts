@@ -1,8 +1,8 @@
 import { gql } from "urql";
 
 export const GET_PROJECT_QUERY = gql`
-  query GetProject($id: ID!) {
-    getProject(id: $id) {
+  query GetProject($projectId: ID!) {
+    getProject(projectId: $projectId) {
       id
       name
       image

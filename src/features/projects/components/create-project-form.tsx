@@ -69,6 +69,7 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
         return;
       }
       form.reset();
+      // TODO: handle only if is the first project in the workspace
       router.push(
         `/workspaces/${workspaceId}/projects/${data?.createProject.id}`
       );

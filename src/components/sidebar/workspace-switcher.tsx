@@ -26,7 +26,7 @@ interface QueryResponse {
 export const WorkspaceSwitcher = () => {
   const router = useRouter();
   const workspaceId = useWorkspaceId();
-  const [{ fetching, data }] = useQuery<QueryResponse>({
+  const [{ fetching: isPending, data }] = useQuery<QueryResponse>({
     query: GET_WORKSPACES_QUERY,
     requestPolicy: "cache-and-network"
   });
@@ -35,6 +35,10 @@ export const WorkspaceSwitcher = () => {
   const onSelect = (id: string) => {
     router.push(`/workspaces/${id}`);
   };
+
+  if (isPending) {
+    return <p className="text-xs text-neutral-500">Loading...</p>;
+  }
 
   return (
     <div className="flex flex-col gap-y-2">

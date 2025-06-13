@@ -59,7 +59,13 @@ export const CreateTaskForm = ({
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    createTask({ ...values, workspaceId }).then((result) => {
+    const taskValues = {
+      ...values,
+      workspaceId,
+      dueDate: values.dueDate.toDateString()
+    };
+    console.log("Creating task with values:", taskValues);
+    createTask(taskValues).then((result) => {
       if (result.error) {
         console.error("Error creating task:", result.error);
       } else {

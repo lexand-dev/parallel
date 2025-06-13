@@ -1,8 +1,8 @@
 import { gql } from "urql";
 
 export const GET_MEMBERS_FORM = gql`
-  query GetMembers($workspaceId: String!) {
-    GetMembers(workspaceId: $workspaceId) {
+  query GetMembers($workspaceId: ID!) {
+    getMembers(workspaceId: $workspaceId) {
       id
       name
     }

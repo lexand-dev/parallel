@@ -55,3 +55,14 @@ export const DELETE_TASK_MUTATION = gql`
     }
   }
 `;
+
+export const BULK_UPDATE_TASKS_MUTATION = gql`
+  mutation BulkUpdateTasks($tasks: [BulkTask!]!) {
+    bulkUpdateTasks(tasks: $tasks) {
+      id
+      name
+      status
+      position
+    }
+  }
+`;

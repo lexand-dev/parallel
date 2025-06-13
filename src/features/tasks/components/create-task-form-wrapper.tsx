@@ -32,21 +32,20 @@ export const CreateTaskFormWrapper = ({
 }: CreateTaskFormWrapperProps) => {
   const workspaceId = useWorkspaceId();
 
-  const [{ data, fetching }] = useQuery<QueryResponseMembers>({
-    query: GET_MEMBERS_FORM,
-    variables: { workspaceId }
-  });
+  const [{ data, fetching: isLoadingMembers }] = useQuery<QueryResponseMembers>(
+    {
+      query: GET_MEMBERS_FORM,
+      variables: { workspaceId }
+    }
+  );
 
-  const [{ data: projectsData, fetching: fetchingProjects }] =
+  const [{ data: projectsData, fetching: isLoadingProjects }] =
     useQuery<QueryResponseProjects>({
       query: GET_PROJECTS_QUERY,
       variables: { workspaceId }
     });
 
-  const isLoadingProjects = fetchingProjects;
   const projectOptions = projectsData?.getProjects;
-
-  const isLoadingMembers = fetching;
   const memberOptions = data?.getMembers;
 
   const isLoading = isLoadingProjects || isLoadingMembers;

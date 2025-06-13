@@ -62,9 +62,9 @@ export const CreateTaskForm = ({
     const taskValues = {
       ...values,
       workspaceId,
-      dueDate: values.dueDate.toDateString()
+      dueDate: values.dueDate.toISOString()
     };
-    console.log("Creating task with values:", taskValues);
+
     createTask(taskValues).then((result) => {
       if (result.error) {
         console.error("Error creating task:", result.error);

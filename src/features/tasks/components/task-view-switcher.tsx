@@ -19,7 +19,7 @@ import { DataTable } from "./views/data-table";
 import { DataKanban } from "./views/data-kanban";
 import { DataCalendar } from "./views/data-calendar";
 
-import { TaskStatus } from "../schemas";
+import type { TaskFull } from "../schemas";
 import { GET_TASKS_QUERY } from "../graphql/queries";
 import { useTaskFilters } from "../hooks/use-task-filters";
 import { useCreateTaskModal } from "../hooks/use-create-task-modal";
@@ -29,17 +29,7 @@ interface TaskViewSwitcherProps {
 }
 
 interface QueryResponseTasks {
-  getTasks: {
-    id: string;
-    name: string;
-    status: TaskStatus;
-    dueDate: string | null;
-    assigneeId: string | null;
-    workspaceId: string;
-    projectId: string | null;
-    position: number;
-    description: string | null;
-  }[];
+  getTasks: TaskFull[];
 }
 
 export const TaskViewSwitcher = ({
@@ -101,7 +91,7 @@ export const TaskViewSwitcher = ({
         ) : (
           <>
             <TabsContent value="table" className="mt-0">
-              {/* <DataTable columns={columns} data={tasks?.documents ?? []} /> */}
+              <DataTable columns={columns} data={tasks?.getTasks ?? []} />
             </TabsContent>
             <TabsContent value="kanban" className="mt-0">
               {/* <DataKanban

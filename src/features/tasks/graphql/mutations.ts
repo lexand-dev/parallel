@@ -6,8 +6,8 @@ export const CREATE_TASK_MUTATION = gql`
     $status: TaskStatus!
     $workspaceId: ID!
     $projectId: ID!
-    $dueDate: String
-    $assigneeId: ID
+    $dueDate: String!
+    $assigneeId: ID!
   ) {
     createTask(
       name: $name
@@ -20,6 +20,38 @@ export const CREATE_TASK_MUTATION = gql`
       id
       name
       status
+    }
+  }
+`;
+
+export const UPDATE_TASK_MUTATION = gql`
+  mutation UpdateTask(
+    $id: ID!
+    $name: String!
+    $status: TaskStatus!
+    $dueDate: String!
+    $projectId: ID!
+    $assigneeId: ID!
+  ) {
+    updateTask(
+      id: $id
+      name: $name
+      status: $status
+      dueDate: $dueDate
+      projectId: $projectId
+      assigneeId: $assigneeId
+    ) {
+      id
+      name
+    }
+  }
+`;
+
+export const DELETE_TASK_MUTATION = gql`
+  mutation DeleteTask($id: ID!) {
+    deleteTask(id: $id) {
+      id
+      name
     }
   }
 `;

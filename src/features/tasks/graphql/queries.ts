@@ -44,6 +44,8 @@ export const GET_TASK_QUERY = gql`
       name
       dueDate
       status
+      assigneeId
+      projectId
       assignee {
         name
       }

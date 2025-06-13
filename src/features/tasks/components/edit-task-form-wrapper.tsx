@@ -10,7 +10,7 @@ import { useQuery } from "@urql/next";
 import { GET_MEMBERS_FORM } from "@/features/members/graphql/queries";
 import { GET_PROJECTS_QUERY } from "@/features/projects/graphql/queries";
 import { GET_TASK_QUERY } from "../graphql/queries";
-import { TaskStatus } from "../schemas";
+import { TaskFull, TaskStatus } from "../schemas";
 
 interface EditTaskFormWrapperProps {
   onCancel: () => void;
@@ -33,12 +33,7 @@ interface QueryResponseProjects {
 }
 
 interface QueryResponseTask {
-  getTask: {
-    id: string;
-    name: string;
-    dueDate: string;
-    status: TaskStatus;
-  };
+  getTask: TaskFull;
 }
 
 export const EditTaskFormWrapper = ({

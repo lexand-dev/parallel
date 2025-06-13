@@ -31,19 +31,14 @@ import {
   SelectValue
 } from "@/components/ui/select";
 
-import { TaskStatus, updateTaskSchema } from "../schemas";
+import { TaskFull, TaskStatus, updateTaskSchema } from "../schemas";
 import { UPDATE_TASK_MUTATION } from "../graphql/mutations";
 
 interface EditTaskFormProps {
   onCancel?: () => void;
   projectOptions: { id: string; name: string; image: string }[];
   memberOptions: { id: string; name: string }[];
-  initialValues: {
-    id: string;
-    name: string;
-    dueDate: string;
-    status: TaskStatus;
-  };
+  initialValues: TaskFull;
 }
 
 export const EditTaskForm = ({

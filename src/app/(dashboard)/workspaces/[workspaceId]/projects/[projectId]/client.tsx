@@ -11,6 +11,7 @@ import { PageLoader } from "@/components/page-loader";
 import type { Project } from "@/features/projects/schemas";
 import { useProjectId } from "@/features/projects/hooks/use-project-id";
 import { ProjectAvatar } from "@/features/projects/components/project-avatar";
+import { TaskViewSwitcher } from "@/features/tasks/components/task-view-switcher";
 import { GET_PROJECT_QUERY } from "@/features/projects/graphql/queries";
 
 interface QueryResponse {
@@ -59,8 +60,7 @@ export const ProjectIdClient = () => {
           </Button>
         </div>
       </div>
-      {/*       {analytics ? <Analytics data={analytics} /> : null}
-      <TaskViewSwitcher hideProjectFilter /> */}
+      <TaskViewSwitcher hideProjectFilter />
     </div>
   );
 };

@@ -17,7 +17,6 @@ export const GET_PROJECTS_QUERY = gql`
       id
       name
       image
-      workspaceId
     }
   }
 `;

@@ -26,6 +26,31 @@ export const GET_TASKS_QUERY = gql`
       assigneeId
       position
       description
+      assignee {
+        name
+      }
+      project {
+        name
+        image
+      }
+    }
+  }
+`;
+
+export const GET_TASK_QUERY = gql`
+  query GetTask($id: ID!) {
+    getTask(id: $id) {
+      id
+      name
+      dueDate
+      status
+      assignee {
+        name
+      }
+      project {
+        name
+        image
+      }
     }
   }
 `;

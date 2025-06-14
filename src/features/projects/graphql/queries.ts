@@ -7,6 +7,7 @@ export const GET_PROJECT_QUERY = gql`
       name
       image
       workspaceId
+      __typename
     }
   }
 `;
@@ -17,6 +18,7 @@ export const GET_PROJECTS_QUERY = gql`
       id
       name
       image
+      __typename
     }
   }
 `;

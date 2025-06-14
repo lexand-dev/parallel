@@ -63,13 +63,16 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
       workspaceId
     };
 
-    createProject(finalValues).then(({ data, error }) => {
+    createProject(finalValues, {
+      additionalTypenames: ["Project"]
+    }).then(({ data, error }) => {
       if (error) {
         console.error("Error creating project:", error);
         return;
       }
       form.reset();
       // TODO: handle only if is the first project in the workspace
+      router.refresh();
       router.push(
         `/workspaces/${workspaceId}/projects/${data?.createProject.id}`
       );

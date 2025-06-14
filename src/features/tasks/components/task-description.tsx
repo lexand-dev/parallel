@@ -1,3 +1,4 @@
+import { toast } from "sonner";
 import { useState } from "react";
 import { useMutation } from "@urql/next";
 import { PencilIcon, XIcon } from "lucide-react";
@@ -8,7 +9,6 @@ import { DottedSeparator } from "@/components/dotted-separator";
 
 import { Task } from "../schemas";
 import { UPDATE_TASK_MUTATION } from "../graphql/mutations";
-import { toast } from "sonner";
 
 interface TaskDescriptionProps {
   task: Task;
@@ -21,19 +21,20 @@ export const TaskDescription = ({ task }: TaskDescriptionProps) => {
   const [{ fetching: isPending }, updateTask] =
     useMutation(UPDATE_TASK_MUTATION);
 
-  const handleSave = () => {
-    updateTask({
+  const handleSave = async () => {
+    const ok = await updateTask({
       dueDate: task.dueDate,
       description: value,
       id: task.id
-    }).then((result) => {
-      if (result.error) {
-        toast.error("Failed to update task description");
-        console.error("Failed to update task description:", result.error);
-      }
-      toast.success("Task description updated");
-      setIsEditing(false);
     });
+
+    if (ok.error) {
+      toast.error("Failed to update task description");
+      return;
+    }
+
+    setIsEditing(false);
+    toast.success("Task description updated");
   };
 
   return (

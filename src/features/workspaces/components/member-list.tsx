@@ -16,27 +16,26 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useConfirm } from "@/hooks/use-confirm";
 import { Separator } from "@/components/ui/separator";
 import { DottedSeparator } from "@/components/dotted-separator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { GET_WORKSPACE_QUERY } from "../graphql/queries";
+
 import {
   UPDATE_MEMBER_ROLE,
   DELETE_MEMBER
 } from "@/features/members/graphql/mutations";
-import { Badge } from "@/components/ui/badge";
+import { GET_MEMBERS } from "@/features/members/graphql/queries";
 
-interface QueryResponse {
-  getWorkspace: {
-    members: {
-      id: string;
-      name: string;
-      role: MemberRole;
-      email: string;
-    }[];
-  };
+interface QueryResponseMembers {
+  getMembers: {
+    id: string;
+    name: string;
+    email: string;
+    role: MemberRole;
+  }[];
 }
 
 export const MembersList = () => {
@@ -46,9 +45,9 @@ export const MembersList = () => {
     "This member will be removed from the workspace"
   );
 
-  const [{ data, fetching }] = useQuery<QueryResponse>({
-    query: GET_WORKSPACE_QUERY,
-    variables: { id: workspaceId },
+  const [{ data, fetching }] = useQuery<QueryResponseMembers>({
+    query: GET_MEMBERS,
+    variables: { workspaceId },
     requestPolicy: "cache-and-network"
   });
 
@@ -108,15 +107,15 @@ export const MembersList = () => {
         </Button>
         <CardTitle className="text-xl font-bold">Members list</CardTitle>
         <Badge variant="secondary" className="ml-auto">
-          {data?.getWorkspace.members.length}{" "}
-          {data?.getWorkspace.members.length === 1 ? "member" : "members"}
+          {data?.getMembers.length}{" "}
+          {data?.getMembers.length === 1 ? "member" : "members"}
         </Badge>
       </CardHeader>
       <div className="px-7">
         <DottedSeparator />
       </div>
       <CardContent className="p-7">
-        {data?.getWorkspace.members.map((member, index) => (
+        {data?.getMembers.map((member, index) => (
           <Fragment key={member.id}>
             <div className="flex items-center gap-2">
               <MemberAvatar
@@ -171,7 +170,7 @@ export const MembersList = () => {
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
-            {index < data.getWorkspace.members.length - 1 && (
+            {index < data.getMembers.length - 1 && (
               <Separator className="my-2.5" />
             )}
           </Fragment>

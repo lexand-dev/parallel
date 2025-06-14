@@ -5,7 +5,7 @@ import { CreateTaskForm } from "./create-task-form";
 import { Card, CardContent } from "@/components/ui/card";
 import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 
-import { GET_MEMBERS_FORM } from "@/features/members/graphql/queries";
+import { GET_MEMBERS } from "@/features/members/graphql/queries";
 import { GET_PROJECTS_QUERY } from "@/features/projects/graphql/queries";
 
 interface CreateTaskFormWrapperProps {
@@ -34,7 +34,7 @@ export const CreateTaskFormWrapper = ({
 
   const [{ data, fetching: isLoadingMembers }] = useQuery<QueryResponseMembers>(
     {
-      query: GET_MEMBERS_FORM,
+      query: GET_MEMBERS,
       variables: { workspaceId }
     }
   );

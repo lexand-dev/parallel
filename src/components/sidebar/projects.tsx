@@ -22,12 +22,15 @@ export const Projects = () => {
   const pathname = usePathname();
   const { open } = useCreateProjectModal();
   const workspaceId = useWorkspaceId();
-  const [{ fetching, data }] = useQuery<QueryResponse>({
+  const [{ fetching: isPending, data }] = useQuery<QueryResponse>({
     query: GET_PROJECTS_QUERY,
     variables: { workspaceId },
-    pause: !workspaceId,
     requestPolicy: "cache-and-network"
   });
+
+  if (isPending) {
+    return <p className="text-xs text-neutral-500">Loading...</p>;
+  }
 
   return (
     <div className="flex flex-col gap-y-2">

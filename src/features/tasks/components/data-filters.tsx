@@ -16,7 +16,7 @@ import { DatePicker } from "@/components/date-picker";
 import { TaskStatus } from "../schemas";
 import { useTaskFilters } from "../hooks/use-task-filters";
 
-import { GET_MEMBERS_FORM } from "@/features/members/graphql/queries";
+import { GET_MEMBERS } from "@/features/members/graphql/queries";
 import { GET_PROJECTS_QUERY } from "@/features/projects/graphql/queries";
 import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 
@@ -50,7 +50,7 @@ export const DataFilters = ({ hideProjectFilter }: DataFiltersProps) => {
 
   const [{ data: members, fetching: isLoadingMembers }] =
     useQuery<QueryResponseMembers>({
-      query: GET_MEMBERS_FORM,
+      query: GET_MEMBERS,
       variables: { workspaceId }
     });
 

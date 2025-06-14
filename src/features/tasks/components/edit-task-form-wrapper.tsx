@@ -7,7 +7,7 @@ import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 import { EditTaskForm } from "./edit-task-form";
 
 import { useQuery } from "@urql/next";
-import { GET_MEMBERS_FORM } from "@/features/members/graphql/queries";
+import { GET_MEMBERS } from "@/features/members/graphql/queries";
 import { GET_PROJECTS_QUERY } from "@/features/projects/graphql/queries";
 import { GET_TASK_QUERY } from "../graphql/queries";
 import { TaskFull, TaskStatus } from "../schemas";
@@ -49,7 +49,7 @@ export const EditTaskFormWrapper = ({
     });
   const [{ data: membersData, fetching: isLoadingMembers }] =
     useQuery<QueryResponseMembers>({
-      query: GET_MEMBERS_FORM,
+      query: GET_MEMBERS,
       variables: { workspaceId }
     });
 

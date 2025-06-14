@@ -28,6 +28,8 @@ import {
   DELETE_MEMBER
 } from "@/features/members/graphql/mutations";
 import { GET_MEMBERS } from "@/features/members/graphql/queries";
+import { PageError } from "@/components/page-error";
+import { PageLoader } from "@/components/page-loader";
 
 interface QueryResponseMembers {
   getMembers: {
@@ -45,10 +47,9 @@ export const MembersList = () => {
     "This member will be removed from the workspace"
   );
 
-  const [{ data, fetching }] = useQuery<QueryResponseMembers>({
+  const [{ data, fetching: isLoading }] = useQuery<QueryResponseMembers>({
     query: GET_MEMBERS,
-    variables: { workspaceId },
-    requestPolicy: "cache-and-network"
+    variables: { workspaceId }
   });
 
   const [{ fetching: isUpdatingMember }, updateMember] =
@@ -60,8 +61,8 @@ export const MembersList = () => {
     updateMember(
       { memberId, role, workspaceId },
       {
-        additionalTypenames: ["Workspace"],
-        requestPolicy: "network-only"
+        additionalTypenames: ["Member", "Workspace"],
+        requestPolicy: "cache-and-network"
       }
     ).then(({ error, data }) => {
       if (error) {
@@ -94,6 +95,14 @@ export const MembersList = () => {
       );
     });
   };
+
+  if (isLoading) {
+    return <PageLoader />;
+  }
+
+  if (!data?.getMembers) {
+    return <PageError message="Project not found" />;
+  }
 
   return (
     <Card className="w-full h-full border-none shadow-none">

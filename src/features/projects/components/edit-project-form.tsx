@@ -73,7 +73,6 @@ export const EditProjectForm = ({
       }
     });
   };
-  /*   window.location.href = `/workspaces/${initialValues.workspaceId}`; */
 
   const onSubmit = (values: z.infer<typeof updateProjectSchema>) => {
     let imageInput: { file?: File; url?: string } | undefined = undefined;

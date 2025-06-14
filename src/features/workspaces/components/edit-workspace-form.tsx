@@ -94,7 +94,7 @@ export const EditWorkspaceForm = ({
         resetInviteCode(
           { id: initialValues.id },
           { additionalTypenames: ["Workspace"] }
-        ).then(({ data, error }) => {
+        ).then(({ error }) => {
           if (error) {
             toast.error(error.message || "Error resetting invite code");
             return;

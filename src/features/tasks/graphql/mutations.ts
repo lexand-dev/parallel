@@ -27,11 +27,12 @@ export const CREATE_TASK_MUTATION = gql`
 export const UPDATE_TASK_MUTATION = gql`
   mutation UpdateTask(
     $id: ID!
-    $name: String!
-    $status: TaskStatus!
-    $dueDate: String!
-    $projectId: ID!
-    $assigneeId: ID!
+    $name: String
+    $status: TaskStatus
+    $dueDate: String
+    $projectId: ID
+    $assigneeId: ID
+    $description: String
   ) {
     updateTask(
       id: $id
@@ -40,9 +41,11 @@ export const UPDATE_TASK_MUTATION = gql`
       dueDate: $dueDate
       projectId: $projectId
       assigneeId: $assigneeId
+      description: $description
     ) {
       id
       name
+      description
     }
   }
 `;

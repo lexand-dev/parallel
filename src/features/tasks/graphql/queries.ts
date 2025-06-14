@@ -46,10 +46,12 @@ export const GET_TASK_QUERY = gql`
       status
       assigneeId
       projectId
+      description
       assignee {
         name
       }
       project {
+        id
         name
         image
       }

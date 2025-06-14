@@ -43,6 +43,7 @@ export type Task = z.infer<typeof taskSchema>;
 
 export type TaskFull = Task & {
   project: {
+    id: string;
     name: string;
     image: string;
   };

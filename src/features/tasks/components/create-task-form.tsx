@@ -66,7 +66,7 @@ export const CreateTaskForm = ({
     };
 
     createTask(taskValues, {
-      additionalTypenames: ["Tasks", "AnalyticsProject"]
+      additionalTypenames: ["Tasks", "Analytics"]
     }).then((result) => {
       if (result.error) {
         console.error("Error creating task:", result.error);

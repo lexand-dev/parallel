@@ -65,7 +65,7 @@ export const EditTaskForm = ({
       dueDate: values.dueDate ? values.dueDate.toISOString() : undefined
     };
     mutate(taskValues, {
-      additionalTypenames: ["Tasks", "AnalyticsProject"]
+      additionalTypenames: ["Tasks", "Analytics"]
     }).then((result) => {
       if (result.error) {
         console.error("Error updating task:", result.error);

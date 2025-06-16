@@ -8,10 +8,7 @@ import { Button } from "@/components/ui/button";
 import { PageError } from "@/components/page-error";
 import { PageLoader } from "@/components/page-loader";
 
-import type {
-  Project,
-  ProjectAnalyticsResponse
-} from "@/features/projects/schemas";
+import type { Project, AnalyticsResponse } from "@/features/projects/schemas";
 import { useProjectId } from "@/features/projects/hooks/use-project-id";
 import { ProjectAvatar } from "@/features/projects/components/project-avatar";
 import { TaskViewSwitcher } from "@/features/tasks/components/task-view-switcher";
@@ -25,8 +22,8 @@ interface QueryResponse {
   getProject: Project;
 }
 
-interface AnalyticsResponse {
-  getAnalyticsProject: ProjectAnalyticsResponse;
+interface QueryAnalyticsResponse {
+  getAnalyticsProject: AnalyticsResponse;
 }
 
 export const ProjectIdClient = () => {
@@ -40,7 +37,7 @@ export const ProjectIdClient = () => {
     });
 
   const [{ data: analyticsProject, fetching: isLoadingAnalytics }] =
-    useQuery<AnalyticsResponse>({
+    useQuery<QueryAnalyticsResponse>({
       query: GET_ANALYTICS_PROJECT_QUERY,
       variables: { projectId },
       pause: !projectId,

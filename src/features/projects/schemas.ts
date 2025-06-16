@@ -30,7 +30,7 @@ export const updateProjectSchema = z.object({
     .optional()
 });
 
-export interface ProjectAnalyticsResponse {
+export interface AnalyticsResponse {
   taskCount: number;
   taskDifference: number;
   assignedTaskCount: number;

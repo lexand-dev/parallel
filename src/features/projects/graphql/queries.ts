@@ -22,3 +22,20 @@ export const GET_PROJECTS_QUERY = gql`
     }
   }
 `;
+
+export const GET_ANALYTICS_PROJECT_QUERY = gql`
+  query GetAnalyticsProject($projectId: ID!) {
+    getAnalyticsProject(projectId: $projectId) {
+      taskCount
+      taskDifference
+      assignedTaskCount
+      assignedTaskDifference
+      completedTaskCount
+      completedTaskDifference
+      incompleteTaskCount
+      incompleteTaskDifference
+      overdueTaskCount
+      overdueTaskDifference
+    }
+  }
+`;

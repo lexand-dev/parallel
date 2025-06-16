@@ -8,27 +8,48 @@ import { Button } from "@/components/ui/button";
 import { PageError } from "@/components/page-error";
 import { PageLoader } from "@/components/page-loader";
 
-import type { Project } from "@/features/projects/schemas";
+import type {
+  Project,
+  ProjectAnalyticsResponse
+} from "@/features/projects/schemas";
 import { useProjectId } from "@/features/projects/hooks/use-project-id";
 import { ProjectAvatar } from "@/features/projects/components/project-avatar";
 import { TaskViewSwitcher } from "@/features/tasks/components/task-view-switcher";
-import { GET_PROJECT_QUERY } from "@/features/projects/graphql/queries";
+import {
+  GET_ANALYTICS_PROJECT_QUERY,
+  GET_PROJECT_QUERY
+} from "@/features/projects/graphql/queries";
+import { Analytics } from "@/components/analytics";
 
 interface QueryResponse {
   getProject: Project;
 }
 
+interface AnalyticsResponse {
+  getAnalyticsProject: ProjectAnalyticsResponse;
+}
+
 export const ProjectIdClient = () => {
   const projectId = useProjectId();
-  const [{ data, fetching }] = useQuery<QueryResponse>({
-    query: GET_PROJECT_QUERY,
-    variables: { projectId },
-    pause: !projectId,
-    requestPolicy: "cache-and-network"
-  });
+  const [{ data: projectData, fetching: isLoadingProject }] =
+    useQuery<QueryResponse>({
+      query: GET_PROJECT_QUERY,
+      variables: { projectId },
+      pause: !projectId,
+      requestPolicy: "cache-and-network"
+    });
 
-  const isLoading = fetching;
-  const project = data?.getProject;
+  const [{ data: analyticsProject, fetching: isLoadingAnalytics }] =
+    useQuery<AnalyticsResponse>({
+      query: GET_ANALYTICS_PROJECT_QUERY,
+      variables: { projectId },
+      pause: !projectId,
+      requestPolicy: "cache-and-network"
+    });
+
+  const isLoading = isLoadingProject || isLoadingAnalytics;
+  const project = projectData?.getProject;
+  const analytics = analyticsProject?.getAnalyticsProject;
 
   if (isLoading) {
     return <PageLoader />;
@@ -60,6 +81,7 @@ export const ProjectIdClient = () => {
           </Button>
         </div>
       </div>
+      {analytics ? <Analytics data={analytics} /> : null}
       <TaskViewSwitcher hideProjectFilter />
     </div>
   );

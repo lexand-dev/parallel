@@ -65,7 +65,9 @@ export const CreateTaskForm = ({
       dueDate: values.dueDate.toISOString()
     };
 
-    createTask(taskValues).then((result) => {
+    createTask(taskValues, {
+      additionalTypenames: ["Tasks", "AnalyticsProject"]
+    }).then((result) => {
       if (result.error) {
         console.error("Error creating task:", result.error);
       } else {

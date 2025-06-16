@@ -29,3 +29,16 @@ export const updateProjectSchema = z.object({
     ])
     .optional()
 });
+
+export interface ProjectAnalyticsResponse {
+  taskCount: number;
+  taskDifference: number;
+  assignedTaskCount: number;
+  assignedTaskDifference: number;
+  completedTaskCount: number;
+  completedTaskDifference: number;
+  incompleteTaskCount: number;
+  incompleteTaskDifference: number;
+  overdueTaskCount: number;
+  overdueTaskDifference: number;
+}

@@ -40,7 +40,10 @@ export const TaskActions = ({ id, projectId, children }: TaskActionsProps) => {
     const ok = await confirm();
     if (!ok) return;
 
-    deleteTask({ id }, { additionalTypenames: ["Tasks"] }).then((result) => {
+    deleteTask(
+      { id },
+      { additionalTypenames: ["Tasks", "AnalyticsProject"] }
+    ).then((result) => {
       if (result.error) {
         toast.error("Failed to delete task");
       }

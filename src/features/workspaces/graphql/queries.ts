@@ -38,3 +38,20 @@ export const GET_WORKSPACE_INFO = gql`
     }
   }
 `;
+
+export const GET_ANALYTICS_WORKSPACE_QUERY = gql`
+  query GetAnalyticsWorkspace($workspaceId: ID!) {
+    getAnalyticsWorkspace(workspaceId: $workspaceId) {
+      taskCount
+      taskDifference
+      assignedTaskCount
+      assignedTaskDifference
+      completedTaskCount
+      completedTaskDifference
+      incompleteTaskCount
+      incompleteTaskDifference
+      overdueTaskCount
+      overdueTaskDifference
+    }
+  }
+`;

@@ -63,12 +63,14 @@ export const TaskViewSwitcher = ({
 
   const onKanbanChange = useCallback(
     (tasks: { id: string; status: TaskStatus; position: number }[]) => {
-      bulkUpdate({ tasks }).then((result) => {
-        if (result.error) {
-          console.error("Failed to update tasks:", result.error);
+      bulkUpdate({ tasks }, { additionalTypenames: ["Analytics"] }).then(
+        (result) => {
+          if (result.error) {
+            console.error("Failed to update tasks:", result.error);
+          }
+          toast.success("Tasks updated");
         }
-        toast.success("Tasks updated");
-      });
+      );
     },
     [bulkUpdate]
   );

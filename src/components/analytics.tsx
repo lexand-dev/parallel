@@ -1,10 +1,10 @@
 import { AnalyticsCard } from "./analytics-card";
 import { DottedSeparator } from "./dotted-separator";
 import { ScrollArea, ScrollBar } from "./ui/scroll-area";
-import { ProjectAnalyticsResponse } from "@/features/projects/schemas";
+import { AnalyticsResponse } from "@/features/projects/schemas";
 
 interface AnalyticsProps {
-  data: ProjectAnalyticsResponse;
+  data: AnalyticsResponse;
 }
 
 export const Analytics = ({ data }: AnalyticsProps) => {

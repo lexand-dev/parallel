@@ -15,7 +15,7 @@ export default async function Home() {
 
   const makeClient = () => {
     return createClient({
-      url: process.env.NEXT_PUBLIC_GRAPHQL_URL!,
+      url: `${process.env.NEXT_PUBLIC_APP_URL}/api/graphql`,
       exchanges: [cacheExchange, fetchExchange],
       fetchOptions: {
         credentials: "include",

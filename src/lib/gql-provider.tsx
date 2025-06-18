@@ -20,7 +20,7 @@ export default function Layout({ children, token }: LayoutProps) {
       isClient: typeof window !== "undefined"
     });
     const client = createClient({
-      url: process.env.NEXT_PUBLIC_GRAPHQL_URL!,
+      url: "/api/graphql",
       exchanges: [cacheExchange, ssr, fetchExchange],
       fetchOptions: {
         credentials: "include",

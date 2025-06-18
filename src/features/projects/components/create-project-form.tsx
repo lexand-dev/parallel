@@ -71,7 +71,9 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
         return;
       }
       form.reset();
-      window.location.href = `/workspaces/${workspaceId}/projects/${data?.createProject.id}`;
+      router.push(
+        `/workspaces/${workspaceId}/projects/${data?.createProject.id}`
+      );
     });
   };
 

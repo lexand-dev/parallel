@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useMemo } from "react";
 import { useQuery } from "@urql/next";
 import { usePathname } from "next/navigation";
 import { RiAddCircleFill } from "react-icons/ri";
@@ -25,7 +26,13 @@ export const Projects = () => {
   const [{ fetching: isPending, data }] = useQuery<QueryResponse>({
     query: GET_PROJECTS_QUERY,
     variables: { workspaceId },
-    requestPolicy: "cache-and-network"
+    requestPolicy: "cache-and-network",
+    context: useMemo(
+      () => ({
+        additionalTypenames: ["Project"]
+      }),
+      []
+    )
   });
 
   if (isPending) {

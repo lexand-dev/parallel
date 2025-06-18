@@ -1,7 +1,7 @@
 "use client";
 
 import { toast } from "sonner";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { useQueryState } from "nuqs";
 import { Loader, PlusIcon } from "lucide-react";
 import { useMutation, useQuery } from "@urql/next";
@@ -58,7 +58,12 @@ export const TaskViewSwitcher = ({
         assigneeId: assigneeId ?? undefined,
         dueDate: dueDate ?? undefined
       },
-      requestPolicy: "cache-and-network"
+      context: useMemo(
+        () => ({
+          additionalTypenames: ["Task"]
+        }),
+        []
+      )
     });
 
   const onKanbanChange = useCallback(
